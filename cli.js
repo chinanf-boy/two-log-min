@@ -7,7 +7,12 @@ const tc = require('turbocolor');
 const c = tc.cyan
 const m = tc.magenta
 const r = tc.red
-
+let userUse = api => {
+	let createDebug = api.log;
+	createDebug.formatters.h = (v) => {
+	return v.toString('hex')
+	}
+};
 const toS = (s) => JSON.stringify(s,null,0)
 
 const cli = meow(`
@@ -25,7 +30,7 @@ const cli = meow(`
 `);
 
 let D = cli.flags['D'] || false
-let l = twoLog(D);
+let l = twoLog(D,userUse);
 let t = 6000;
 
 let useWhat = !D ? 'ora' : 'log';
@@ -49,7 +54,7 @@ const o2 = {
 }
 
 setTimeout(() => {
-	l.text(`ora:green, log:cli`, o2);
+	l.text(`ora:green, log:cli %h`, new Buffer('hello world'), o2);
 
 	l.one('one time ora');
 }, t - 3000);
