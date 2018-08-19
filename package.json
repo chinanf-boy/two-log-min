@@ -1,0 +1,73 @@
+{
+	"name": "two-log-min",
+	"version": "0.1.0",
+	"description": "ora and debug , just two logger, if debug",
+	"license": "MIT",
+	"main": "dist/two-log-min.js",
+	"module": "dist/two-log-min.m.js",
+	"repository": "chinanf-boy/two-log-min",
+	"author": {
+		"name": "chinanf-boy",
+		"email": "865501259@qq.com",
+		"url": "llever.com"
+	},
+	"bin": "cli.js",
+	"engines": {
+		"node": ">=4"
+	},
+	"scripts": {
+		"pretest": "npm run build",
+		"test": "nyc ava -v -s",
+		"prepublish": "npm run build",
+		"build": "microbundle",
+		"precommit": "lint-staged",
+		"npmUp": "npm version patch && npm publish",
+		"git": "git push && git push --tags",
+		"pub": "npm run test && npm run npmUp && npm run git"
+	},
+	"lint-staged": {
+		"*.{js,json,css,md}": [
+			"prettier --single-quote --trailing-comma es5 --write",
+			"git add"
+		]
+	},
+	"size-limit": [
+		{
+			"path": "dist/two-log-min.js",
+			"webpack": false,
+			"gzip": false
+		}
+	],
+	"files": [
+		"cli.js",
+		"index.js"
+	],
+	"keywords": [
+		"cli-app",
+		"cli",
+		"log",
+		"ora",
+		"debug"
+	],
+	"dependencies": {
+		"debug": "^3.1.0",
+		"get-module-name": "0.0.1",
+		"meow": "^3.7.0",
+		"ora": "^2.1.0",
+		"turbocolor": "^2.4.5"
+	},
+	"devDependencies": {
+		"ava": "^0.20.0",
+		"codecov": "^3.0.2",
+		"lint-staged": "^7.0.0",
+		"microbundle": "^0.4.4",
+		"nyc": "^11.8.0",
+		"prettier": "^1.12.1"
+	},
+	"nyc": {
+		"reporter": [
+			"lcov",
+			"text"
+		]
+	}
+}
