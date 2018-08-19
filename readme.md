@@ -7,7 +7,7 @@
 ## DEMO
 
 ```
-npm i -g two-lo-min
+npm i -g two-log-min
 ```
 
 <p>
