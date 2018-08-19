@@ -1,6 +1,6 @@
 {
 	"name": "two-log-min",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "ora and debug , just two logger, if debug",
 	"license": "MIT",
 	"main": "dist/two-log-min.js",
