@@ -48,10 +48,11 @@ test('ora succeed', t => {
 
 test('ora start after one: succeed', t => {
 	let l = log();
+	let color = 'red';
 	let s = 'ora';
 	let oraState = 'succeed';
 	let info = 'info';
-	t.is(l.start('ok ora starting').test, s + ' start');
+	t.is(l.start('ok ora starting', { ora: color }).test, s + ' start');
 	t.is(l.text('ok ora running'), s + ' text');
 	t.is(l.one('ok ora running'), true);
 
@@ -63,10 +64,11 @@ test('ora start after one: succeed', t => {
 
 test('ora start after one: stop', t => {
 	let l = log();
+	let color = 'red';
 	let s = 'ora';
 	let oraState = 'succeed';
 	let info = 'info';
-	t.is(l.start('ok ora starting').test, s + ' start');
+	t.is(l.start('ok ora starting', { ora: color }).test, s + ' start');
 	t.is(l.text('ok ora running'), s + ' text');
 	t.is(l.one(''), true);
 
