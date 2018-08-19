@@ -130,7 +130,7 @@ let userUse = api => {
 let l = twoLog(true, userUse);
 
 // …elsewhere
-const debug = l.start('something str',{log:'foo'}) 
+const debug = l.start('something str',{log:'foo'})
 debug('this is hex: %h', new Buffer('hello world'))
 //   foo this is hex: 68656c6c6f20776f726c6421 +0ms
 ```
@@ -153,14 +153,16 @@ debug('this is hex: %h', new Buffer('hello world'))
 
 ---
 
-### loggerStart(str, options):[strLog](#strlog)
+### loggerStart(...args):[strLog](#strlog)
 
 #### str
 
 | name: | str      |
 | ----- | -------- |
 | Type: | `string` |
-| Desc: | start log, |
+| Desc: | start log |
+| Expand by `...args`: | start('one','two',opts) , `one` +/% formatter `two` will log |
+
 
 #### options
 
@@ -175,7 +177,7 @@ debug('this is hex: %h', new Buffer('hello world'))
 
 > `pkgName` is the most closest package.json name
 
-#### strLog
+#### strLog(...args)
 
 | name: | strLog      |
 | ----- | -------- |
@@ -186,7 +188,7 @@ debug('this is hex: %h', new Buffer('hello world'))
 
 <summary> example: use strLog </summary>
 
-```
+``` js
 const twoLog = require('../index')
 
 let l = twoLog(true);
@@ -200,7 +202,7 @@ strLog('this is just like debug')
 </details>
 
 
-### loggerText(str, options)
+### loggerText(...args)
 
 #### str
 
@@ -208,6 +210,8 @@ strLog('this is just like debug')
 | ----- | -------- |
 | Type: | `string` |
 | Desc: | log text |
+| Expand by `...args`: | text('one','two',opts) , `one` +/% formatter `two` will log |
+
 
 #### options
 
@@ -222,7 +226,7 @@ strLog('this is just like debug')
 
 > `pkgName` is the most closest package.json name
 
-### loggerStop(str, options)
+### loggerStop(...args)
 
 #### str
 
@@ -230,6 +234,8 @@ strLog('this is just like debug')
 | ----- | -------- |
 | Type: | `string` |
 | Desc: | log text |
+| Expand by `...args`: | stop('one','two',opts) , `one` +/% formatter `two` will log |
+
 
 #### options
 
@@ -242,7 +248,7 @@ strLog('this is just like debug')
 | options.log:  | debug show log level                                                   |
 | options.only: | only one {'ora' \| 'log'} can use                                        |
 
-### oneOra(str, options)
+### oneOra(...args)
 
 #### str
 
@@ -250,6 +256,8 @@ strLog('this is just like debug')
 | ----- | -------- |
 | Type: | `string` |
 | Desc: | ora text |
+| Expand by `...args`: | one('one','two',opts) , `one` +/% formatter `two` will log |
+
 
 #### options
 
@@ -289,7 +297,7 @@ $ two-log-min --help
 	  debug:cli show
 ```
 
-## concat 
+## concat
 
 - [two-log](https://github.com/chinanf-boy/two-log) just need two log, `ora` / `winston`
 

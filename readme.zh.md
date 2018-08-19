@@ -129,7 +129,7 @@ let userUse = api => {
 
 let l = twoLog(true, userUse);
 
-const debug = l.start('something str',{log:'foo'}) 
+const debug = l.start('something str',{log:'foo'})
 debug('this is hex: %h', new Buffer('hello world'))
 //   foo this is hex: 68656c6c6f20776f726c6421 +0ms
 ```
@@ -160,6 +160,7 @@ debug('this is hex: %h', new Buffer('hello world'))
 | ----- | -------- |
 | 类型: | `string` |
 | 描述: | 开始 log, |
+| 被`...args`扩展: | start('one','two',opts) , `one` +/% 格式化 `two` 和一起 |
 
 #### options
 
@@ -174,12 +175,13 @@ debug('this is hex: %h', new Buffer('hello world'))
 
 > `pkgName` is the most closest package.json 名称
 
-#### strLog
+#### strLog(...args)
 
 | 名称: | strLog      |
 | ----- | -------- |
 | 类型: | `Function` |
 | 描述: | 方便使用`debug`,不用加命名空间, 也可以改`ora`的字|
+| 被`...args`扩展: | log('one &h','two') , `one` +/% 格式化 `two` 和一起 |
 
 <details>
 
@@ -190,8 +192,8 @@ const twoLog = require('../index')
 
 let l = twoLog(true);
 
-const strLog = l.start('something str',{log:'foo'}) // here set debug 名称space
-strLog('this is just like debug')
+const strLog = l.start('something str',{log:'foo'}) //设置 命名空间
+strLog('this is hex: %h', new Buffer('hello world')) // 加上上面那个示例
 ```
 
 [code >>>](./example/strLog.js)
@@ -207,6 +209,7 @@ strLog('this is just like debug')
 | ----- | -------- |
 | 类型: | `string` |
 | 描述: | log text |
+| 被`...args`扩展: | text('one','two',opts) , `one` +/% 格式化 `two` 和一起 |
 
 #### options
 
@@ -229,6 +232,7 @@ strLog('this is just like debug')
 | ----- | -------- |
 | 类型: | `string` |
 | 描述: | 停止 日志 |
+| 被`...args`扩展: | stop('one','two',opts) , `one` +/% 格式化 `two` 和一起 |
 
 #### options
 
@@ -249,6 +253,7 @@ strLog('this is just like debug')
 | ----- | -------- |
 | 类型: | `string` |
 | 描述: | ora 一次表现 |
+| 被`...args`扩展: | one('one','two',opts) , `one` +/% 格式化 `two` 和一起 |
 
 #### options
 
@@ -288,7 +293,7 @@ $ two-log-min --help
 	  debug:cli show
 ```
 
-## concat 
+## concat
 
 - [two-log](https://github.com/chinanf-boy/two-log) just need two log, `ora` / `winston`
 
