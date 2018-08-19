@@ -179,7 +179,7 @@ function oneOra(str, options) {
  */
 function loggerStart(...args) {
 	let options = args[args.length - 1]
-	args = args.slice(0,args.length-1)
+	args = args.slice(0,args.length-1 || 1)
 	let {
 		ora,
 		log,
