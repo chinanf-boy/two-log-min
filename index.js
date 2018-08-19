@@ -103,7 +103,7 @@ const apiLog = function(namespace){
 			if(!D){
 				LOGGER.text = str
 			}else{
-				LOGGER[namespace](str,...args) 
+				LOGGER[namespace](str,...args)
 			}
 		}
 		return LOGGER[namespace]
@@ -125,13 +125,17 @@ const isExistAndErr = function(val, opts){
 }
 /**
  * @description one time ora spinner
- * @param {string} str
- * @param {any} options
+ * @arg {Array<string>} args - ...args
+ * @param {string} str ... can more string
  * @param {string} options.color yellow
  * @param {string} options.end succeed
  * @returns {Boolean} work or no
  */
-function oneOra(str, options) {
+function oneOra(...args) {
+	let len = args.length
+	let options = len > 1 ? args[len - 1] : {}
+	let str = args.slice(0,len-1 || 1)
+
 	let {
 		color,
 		end
@@ -142,10 +146,10 @@ function oneOra(str, options) {
 		let oldColor = l.color;
 		let oldText = l.text;
 		l.color = color;
-		l.text = str;
+		l.text = str.join('');
 
-		if (str && end) {
-			l[end](str);
+		if (str.filter(x =>x).length && end) {
+			l[end](...str);
 		} else {
 			l.stop();
 		}
@@ -153,16 +157,15 @@ function oneOra(str, options) {
 		LOGGER = Ora(oldText).start();
 		LOGGER.color = oldColor;
 	} else if (!D && !LOGGER) {
-		let l = Ora(str).start();
-		l.color = color;
-
-		if (str && end) {
-			l[end](str);
+		let l2 = Ora(...str).start();
+		l2.color = color;
+		if (str.filter(x =>x).length && end) {
+			l2[end](...str);
 		} else {
-			l.stop();
+			l2.stop();
 		}
 
-		l = null;
+		l2 = null;
 	} else {
 		return false;
 	}
@@ -171,15 +174,18 @@ function oneOra(str, options) {
 
 /**
  * @description start logger
- * @param {string} str
+ * @arg {Array<string>} args - ...args
+ * @param {string} str ... can more string
  * @param {string} options.ora ora color
  * @param {string} options.log debug log namespace
  * @param {string} options.only only one {ora|log}
  * @returns {Function} important is run debug log without namespace
  */
 function loggerStart(...args) {
-	let options = args[args.length - 1]
-	args = args.slice(0,args.length-1 || 1)
+	let len = args.length
+	let options = len > 1 ? args[len - 1] : {}
+	let str = args.slice(0,len-1 || 1)
+
 	let {
 		ora,
 		log,
@@ -190,7 +196,7 @@ function loggerStart(...args) {
 
 	if (!D && onlyWhat(only, 'ora')) {
 		LOGGER && LOGGER.stop()
-		LOGGER = Ora(...args).start();
+		LOGGER = Ora(...str).start();
 		LOGGER.color = ora;
 
 		res = forText([res, 'start']);
@@ -199,8 +205,8 @@ function loggerStart(...args) {
 		LOGGER = LOGGER || {} // init {}
 		log = getRName(log)
 		LOGGER[log] = debugLog(log) // set nameSpace
-		LOGGER[log](...args) // run log
-	
+		LOGGER[log](...str) // run log
+
 		res = forText([res, log]);
 	}
 	let B = apiLog(log)
@@ -211,15 +217,20 @@ function loggerStart(...args) {
 
 /**
  * @description set logger text
- * @param {String} str
+ * @arg {Array<string>} args - ...args
+ * @param {string} str ... can more string
  * @param {string} options.ora ora color
  * @param {string} options.log debug log namespace
  * @param {string} options.only only one {ora|log}
  */
-function loggerText(str, options) {
+function loggerText(...args) {
 	if (!LOGGER) {
 		return false;
 	}
+	let len = args.length
+	let options = len > 1 ? args[len - 1] : {}
+	let str = args.slice(0,len-1 || 1)
+
 	let {
 		ora,
 		log,
@@ -229,7 +240,7 @@ function loggerText(str, options) {
 	let res = ' '; // for test
 
 	if (!D && onlyWhat(only, 'ora')) {
-		LOGGER.text = str;
+		LOGGER.text = str.join('');
 		LOGGER.color = ora;
 
 		res = forText([res, 'text']);
@@ -237,7 +248,7 @@ function loggerText(str, options) {
 		log = getRName(log)
 
 		if(isExistAndErr(LOGGER[log],{step:3,log})){
-			LOGGER[log](str);
+			LOGGER[log](...str);
 		}
 
 		res = forText([res, log]);
@@ -247,15 +258,20 @@ function loggerText(str, options) {
 
 /**
  * @description logger stop
- * @param {string} str
+ * @arg {Array<string>} args - ...args
+ * @param {string} str ... can more string
  * @param {string} options.ora ora {fail|succeed|warn} https://github.com/sindresorhus/ora#instance
  * @param {string} options.log debug log namespace
  * @param {string} options.only only one {ora|log}
  */
-function loggerStop(str, options) {
+function loggerStop(...args) {
 	if (!LOGGER) {
 		return false;
 	}
+	let len = args.length
+	let options = len > 1 ? args[len - 1] : {}
+	let str = args.slice(0,len-1 || 1)
+
 	let {
 		ora,
 		log,
@@ -265,10 +281,10 @@ function loggerStop(str, options) {
 	let res = ' '; // for test
 
 	if (!D && onlyWhat(only, 'ora')) {
-		if (ora && str) {
+		if (ora && str.length) {
 
 			if(isExistAndErr(LOGGER[ora],{step:4,ora})){
-				LOGGER[ora](str);
+				LOGGER[ora](...str);
 			}
 
 			res = forText([res, ora]);
@@ -280,9 +296,9 @@ function loggerStop(str, options) {
 	} else if (D && onlyWhat(only, 'log')) {
 		log = getRName(log)
 
-		if (str) {
+		if (str.length) {
 			if(isExistAndErr(LOGGER[log],{step:4,log})){
-				LOGGER[log](str);
+				LOGGER[log](...str);
 			}
 		}
 
