@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', {
 	value: true,
 }); // es6 export default
 const debugLog = require('debug');
-const Ora = require('ora');
+const Ora = require('ora-min');
 const pkgName = require('get-module-name').sync();
 const tc = require('turbocolor');
 const c = tc.cyan;
