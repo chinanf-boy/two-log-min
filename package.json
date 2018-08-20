@@ -16,9 +16,9 @@
 		"node": ">=4"
 	},
 	"scripts": {
-		"test": "nyc ava -v -s",
+		"test": "npm run build && nyc ava -v -s",
 		"build": "microbundle",
-		"prepublish": "npm run build && npm run test",
+		"prepublish": "npm run test",
 		"precommit": "lint-staged",
 		"npmUp": "npm version patch && npm publish",
 		"git": "git push && git push --tags",
@@ -27,7 +27,7 @@
 	"husky": {
 		"hooks": {
 			"pre-commit": "lint-staged",
-			"pre-push": "npm run build && npm test"
+			"pre-push": "npm test"
 		}
 	},
 	"lint-staged": {
