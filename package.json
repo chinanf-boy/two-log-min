@@ -9,26 +9,36 @@
 	"author": {
 		"name": "chinanf-boy",
 		"email": "865501259@qq.com",
-		"url": "llever.com"
+		"url": "http://llever.com"
 	},
 	"bin": "cli.js",
 	"engines": {
 		"node": ">=4"
 	},
 	"scripts": {
-		"pretest": "npm run build",
 		"test": "nyc ava -v -s",
-		"prepublish": "npm run build",
 		"build": "microbundle",
+		"prepublish": "npm run build && npm run test",
 		"precommit": "lint-staged",
 		"npmUp": "npm version patch && npm publish",
 		"git": "git push && git push --tags",
 		"pub": "npm run test && npm run npmUp && npm run git"
 	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged",
+			"pre-push": "npm build && npm test"
+		}
+	},
 	"lint-staged": {
-		"*.{js,json,css,md}": [
-			"prettier --single-quote --trailing-comma es5 --write",
-			"git add"
+		"linters": {
+			"*.{js,json,css,md}": [
+				"prettier --single-quote --trailing-comma es5 --write",
+				"git add"
+			]
+		},
+		"ignore": [
+			"**/dist/*.js"
 		]
 	},
 	"size-limit": [
@@ -59,10 +69,10 @@
 	"devDependencies": {
 		"ava": "^0.20.0",
 		"codecov": "^3.0.2",
+		"husky": "^0.14.3",
 		"lint-staged": "^7.0.0",
 		"microbundle": "^0.4.4",
-		"nyc": "^11.8.0",
-		"prettier": "^1.12.1"
+		"nyc": "^11.8.0"
 	},
 	"nyc": {
 		"reporter": [

@@ -7,19 +7,19 @@ const debugLog = require('debug');
 const Ora = require('ora');
 const pkgName = require('get-module-name').sync();
 const tc = require('turbocolor');
-const c = tc.cyan
-const m = tc.magenta
-const r = tc.red
+const c = tc.cyan;
+const m = tc.magenta;
+const r = tc.red;
 
-const getRName = (namespace) =>{
-	if(namespace.startsWith(pkgName)){
-		return namespace
+const getRName = namespace => {
+	if (namespace.startsWith(pkgName)) {
+		return namespace;
 	}
-	if(namespace){
-		return `${pkgName}:${namespace}`
+	if (namespace) {
+		return `${pkgName}:${namespace}`;
 	}
-	return `${pkgName}`
-}
+	return `${pkgName}`;
+};
 
 const onlyWhat = (only, str) => {
 	return !only || only === str;
@@ -29,15 +29,15 @@ const mergeOpts = (opts, step) => {
 
 	let s0 = {
 		color: 'yellow',
-		end: 'succeed'
+		end: 'succeed',
 	}; // oneOra - default opts
 	let s12 = {
 		ora: 'yellow',
-		log: pkgName
+		log: pkgName,
 	}; // start/test - default opts
 	let s3 = {
 		ora: '',
-		log: pkgName
+		log: pkgName,
 	}; // stop - deafult opts
 
 	if (step === 0) {
@@ -61,20 +61,20 @@ const forText = (msgs = []) => {
 // two-log-min
 const twoLog = (debug = false, userUse) => {
 	if (typeof debug === 'string') {
-		debugLog.enable(getRName(debug))
-	}else if(debug){
-		debugLog.enable('*')
+		debugLog.enable(getRName(debug));
+	} else if (debug) {
+		debugLog.enable('*');
 	}
 
 	if (LOCK) {
-			throw new TypeError(`Set two-log-min debug just only one,❌`);
+		throw new TypeError(`Set two-log-min debug just only one,❌`);
 	}
 
 	D = !!debug;
 	LoggerNAME = D ? 'log' : 'ora';
 	LOCK = true;
 
-	if(userUse){
+	if (userUse) {
 		userUse(API);
 	}
 
@@ -82,47 +82,50 @@ const twoLog = (debug = false, userUse) => {
 		start: loggerStart,
 		text: loggerText,
 		stop: loggerStop,
-		one: oneOra
+		one: oneOra,
 	};
 };
 
 // user use API
 let API = {
 	ora: Ora,
-	log: debugLog
+	log: debugLog,
 };
 
 // for test
-const _UNLOCK = function () {
+const _UNLOCK = function() {
 	LOCK = false;
 };
 
-const apiLog = function(namespace){
-	return function strLog(str, ...args){
-		if(LOGGER){
-			if(!D){
-				LOGGER.text = str
-			}else{
-				LOGGER[namespace](str,...args)
+const apiLog = function(namespace) {
+	return function strLog(str, ...args) {
+		if (LOGGER) {
+			if (!D) {
+				LOGGER.text = str;
+			} else {
+				LOGGER[namespace](str, ...args);
 			}
 		}
-		return LOGGER[namespace]
-	}
-}
+		return LOGGER[namespace];
+	};
+};
 
-const isExistAndErr = function(val, opts){
-	let {step,log,ora} = opts
-	if(val){
-		return true
+const isExistAndErr = function(val, opts) {
+	let { step, log, ora } = opts;
+	if (val) {
+		return true;
 	}
-	if(step >= 3){
-		ora && LOGGER.stop()
-		let S = step === 3 ? 'Text':'Stop'
-		let msg = ora ?`'${ora}' method`:`'${log}' namespace`
-		throw new Error(`two-log-min-tip-you > use ${c(LoggerNAME)}:in life<${m(S)}> ❌: no ${c(msg)}`)
+	if (step >= 3) {
+		ora && LOGGER.stop();
+		let S = step === 3 ? 'Text' : 'Stop';
+		let msg = ora ? `'${ora}' method` : `'${log}' namespace`;
+		throw new Error(
+			`two-log-min-tip-you > use ${c(LoggerNAME)}:in life<${m(S)}> ❌: no ${c(
+				msg
+			)}`
+		);
 	}
-
-}
+};
 /**
  * @description one time ora spinner
  * @arg {Array<string>} args - ...args
@@ -132,14 +135,11 @@ const isExistAndErr = function(val, opts){
  * @returns {Boolean} work or no
  */
 function oneOra(...args) {
-	let len = args.length
-	let options = len > 1 ? args[len - 1] : {}
-	let str = args.slice(0,len-1 || 1)
+	let len = args.length;
+	let options = len > 1 ? args[len - 1] : {};
+	let str = args.slice(0, len - 1 || 1);
 
-	let {
-		color,
-		end
-	} = mergeOpts(options, 0);
+	let { color, end } = mergeOpts(options, 0);
 
 	if (LOGGER && !D) {
 		let l = LOGGER;
@@ -148,7 +148,7 @@ function oneOra(...args) {
 		l.color = color;
 		l.text = str.join('');
 
-		if (str.filter(x =>x).length && end) {
+		if (str.filter(x => x).length && end) {
 			l[end](...str);
 		} else {
 			l.stop();
@@ -159,7 +159,7 @@ function oneOra(...args) {
 	} else if (!D && !LOGGER) {
 		let l2 = Ora(...str).start();
 		l2.color = color;
-		if (str.filter(x =>x).length && end) {
+		if (str.filter(x => x).length && end) {
 			l2[end](...str);
 		} else {
 			l2.stop();
@@ -182,37 +182,32 @@ function oneOra(...args) {
  * @returns {Function} important is run debug log without namespace
  */
 function loggerStart(...args) {
-	let len = args.length
-	let options = len > 1 ? args[len - 1] : {}
-	let str = args.slice(0,len-1 || 1)
+	let len = args.length;
+	let options = len > 1 ? args[len - 1] : {};
+	let str = args.slice(0, len - 1 || 1);
 
-	let {
-		ora,
-		log,
-		only
-	} = mergeOpts(options, 1);
+	let { ora, log, only } = mergeOpts(options, 1);
 
 	let res = ' '; // for test
 
 	if (!D && onlyWhat(only, 'ora')) {
-		LOGGER && LOGGER.stop()
+		LOGGER && LOGGER.stop();
 		LOGGER = Ora(...str).start();
 		LOGGER.color = ora;
 
 		res = forText([res, 'start']);
-
 	} else if (D && onlyWhat(only, 'log')) {
-		LOGGER = LOGGER || {} // init {}
-		log = getRName(log)
-		LOGGER[log] = debugLog(log) // set nameSpace
-		LOGGER[log](...str) // run log
+		LOGGER = LOGGER || {}; // init {}
+		log = getRName(log);
+		LOGGER[log] = debugLog(log); // set nameSpace
+		LOGGER[log](...str); // run log
 
 		res = forText([res, log]);
 	}
-	let B = apiLog(log)
-	B.test = forText([LoggerNAME,res])
+	let B = apiLog(log);
+	B.test = forText([LoggerNAME, res]);
 
-	return B
+	return B;
 }
 
 /**
@@ -227,15 +222,11 @@ function loggerText(...args) {
 	if (!LOGGER) {
 		return false;
 	}
-	let len = args.length
-	let options = len > 1 ? args[len - 1] : {}
-	let str = args.slice(0,len-1 || 1)
+	let len = args.length;
+	let options = len > 1 ? args[len - 1] : {};
+	let str = args.slice(0, len - 1 || 1);
 
-	let {
-		ora,
-		log,
-		only
-	} = mergeOpts(options, 2);
+	let { ora, log, only } = mergeOpts(options, 2);
 
 	let res = ' '; // for test
 
@@ -245,9 +236,9 @@ function loggerText(...args) {
 
 		res = forText([res, 'text']);
 	} else if (D && onlyWhat(only, 'log')) {
-		log = getRName(log)
+		log = getRName(log);
 
-		if(isExistAndErr(LOGGER[log],{step:3,log})){
+		if (isExistAndErr(LOGGER[log], { step: 3, log })) {
 			LOGGER[log](...str);
 		}
 
@@ -268,22 +259,17 @@ function loggerStop(...args) {
 	if (!LOGGER) {
 		return false;
 	}
-	let len = args.length
-	let options = len > 1 ? args[len - 1] : {}
-	let str = args.slice(0,len-1 || 1)
+	let len = args.length;
+	let options = len > 1 ? args[len - 1] : {};
+	let str = args.slice(0, len - 1 || 1);
 
-	let {
-		ora,
-		log,
-		only
-	} = mergeOpts(options, 3);
+	let { ora, log, only } = mergeOpts(options, 3);
 
 	let res = ' '; // for test
 
 	if (!D && onlyWhat(only, 'ora')) {
 		if (ora && str.length) {
-
-			if(isExistAndErr(LOGGER[ora],{step:4,ora})){
+			if (isExistAndErr(LOGGER[ora], { step: 4, ora })) {
 				LOGGER[ora](...str);
 			}
 
@@ -294,10 +280,10 @@ function loggerStop(...args) {
 			res = forText([res, 'stop']);
 		}
 	} else if (D && onlyWhat(only, 'log')) {
-		log = getRName(log)
+		log = getRName(log);
 
 		if (str.length) {
-			if(isExistAndErr(LOGGER[log],{step:4,log})){
+			if (isExistAndErr(LOGGER[log], { step: 4, log })) {
 				LOGGER[log](...str);
 			}
 		}
