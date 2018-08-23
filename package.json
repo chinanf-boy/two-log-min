@@ -45,9 +45,7 @@
 			"gzip": false
 		}
 	],
-	"files": [
-		"index.js"
-	],
+	"files": [],
 	"keywords": [
 		"log",
 		"ora",
