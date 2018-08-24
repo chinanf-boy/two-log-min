@@ -296,6 +296,13 @@ function loggerStop(...args) {
 	return forText([LoggerNAME, res]);
 }
 
+process.on('exit', function() {
+	if (LOGGER && !D) {
+		LOGGER.stop();
+		LOGGER = null;
+	}
+});
+
 exports = module.exports = twoLog;
 exports.twoLog = twoLog;
 exports.loggerStart = loggerStart;
