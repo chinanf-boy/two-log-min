@@ -36,7 +36,7 @@ const mergeOpts = (opts, step) => {
 		log: pkgName,
 	}; // start/test - default opts
 	let s3 = {
-		ora: '',
+		ora: 'succeed',
 		log: pkgName,
 	}; // stop - deafult opts
 
@@ -191,8 +191,11 @@ function loggerStart(...args) {
 	let res = ' '; // for test
 
 	if (!D && onlyWhat(only, 'ora')) {
-		LOGGER && LOGGER.stop();
-		LOGGER = Ora(...str).start();
+		if (LOGGER) {
+			LOGGER.text = str.join('');
+		} else {
+			LOGGER = Ora(...str).start();
+		}
 		LOGGER.color = ora;
 
 		res = forText([res, 'start']);
