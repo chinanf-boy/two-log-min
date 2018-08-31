@@ -5,57 +5,17 @@ Object.defineProperty(exports, '__esModule', {
 }); // es6 export default
 const debugLog = require('debug');
 const Ora = require('ora-min');
-const pkgName = require('get-module-name').sync();
-const tc = require('turbocolor');
-const c = tc.cyan;
-const m = tc.magenta;
-const r = tc.red;
+const { c, m, r } = require('yobrave-util');
 
-const getRName = namespace => {
-	if (namespace.startsWith(pkgName)) {
-		return namespace;
-	}
-	if (namespace) {
-		return `${pkgName}:${namespace}`;
-	}
-	return `${pkgName}`;
-};
+const mergeOpts = require('./src/merge-opts');
+const { getRName, onlyWhat, forText, isExistAndErr } = require('./src/util');
 
-const onlyWhat = (only, str) => {
-	return !only || only === str;
-};
-const mergeOpts = (opts, step) => {
-	const M = (s, o) => Object.assign(s, o);
-
-	let s0 = {
-		color: 'yellow',
-		end: 'succeed',
-	}; // oneOra - default opts
-	let s12 = {
-		ora: 'yellow',
-		log: pkgName,
-	}; // start/test - default opts
-	let s3 = {
-		ora: 'succeed',
-		log: pkgName,
-	}; // stop - deafult opts
-
-	if (step === 0) {
-		return M(s0, opts);
-	}
-	if (step === 3) {
-		return M(s3, opts);
-	}
-	return M(s12, opts);
-};
 // two-log-min
 let D = false; // default no debug
 let LOGGER = null; // main
 let LOCK = false; // only one set debug
 let LoggerNAME = 'ora'; // for test
-const forText = (msgs = []) => {
-	return msgs.join('');
-};
+
 // log
 
 // two-log-min
@@ -110,36 +70,17 @@ const apiLog = function(namespace) {
 	};
 };
 
-const isExistAndErr = function(val, opts) {
-	let { step, log, ora } = opts;
-	if (val) {
-		return true;
-	}
-	if (step >= 3) {
-		ora && LOGGER.stop();
-		let S = step === 3 ? 'Text' : 'Stop';
-		let msg = ora ? `'${ora}' method` : `'${log}' namespace`;
-		throw new Error(
-			`two-log-min-tip-you > use ${c(LoggerNAME)}:in life<${m(S)}> ❌: no ${c(
-				msg
-			)}`
-		);
-	}
-};
 /**
  * @description one time ora spinner
  * @arg {Array<string>} args - ...args
  * @param {string} str ... can more string
  * @param {string} options.color yellow
  * @param {string} options.end succeed
+ * @param {string} options.log debug log namespace
  * @returns {Boolean} work or no
  */
 function oneOra(...args) {
-	let len = args.length;
-	let options = len > 1 ? args[len - 1] : {};
-	let str = args.slice(0, len - 1 || 1);
-
-	let { color, end } = mergeOpts(options, 0);
+	let { color, end, log, str } = mergeOpts(0, ...args);
 
 	if (LOGGER && !D) {
 		let l = LOGGER;
@@ -166,6 +107,8 @@ function oneOra(...args) {
 		}
 
 		l2 = null;
+	} else if (D && LOGGER[log]) {
+		LOGGER[log](...str);
 	} else {
 		return false;
 	}
@@ -182,11 +125,7 @@ function oneOra(...args) {
  * @returns {Function} important is run debug log without namespace
  */
 function loggerStart(...args) {
-	let len = args.length;
-	let options = len > 1 ? args[len - 1] : {};
-	let str = args.slice(0, len - 1 || 1);
-
-	let { ora, log, only } = mergeOpts(options, 1);
+	let { ora, log, only, str } = mergeOpts(1, ...args);
 
 	let res = ' '; // for test
 
@@ -225,11 +164,8 @@ function loggerText(...args) {
 	if (!LOGGER) {
 		return false;
 	}
-	let len = args.length;
-	let options = len > 1 ? args[len - 1] : {};
-	let str = args.slice(0, len - 1 || 1);
 
-	let { ora, log, only } = mergeOpts(options, 2);
+	let { ora, log, only, str } = mergeOpts(2, ...args);
 
 	let res = ' '; // for test
 
@@ -262,11 +198,8 @@ function loggerStop(...args) {
 	if (!LOGGER) {
 		return false;
 	}
-	let len = args.length;
-	let options = len > 1 ? args[len - 1] : {};
-	let str = args.slice(0, len - 1 || 1);
 
-	let { ora, log, only } = mergeOpts(options, 3);
+	let { ora, log, only, str } = mergeOpts(3, ...args);
 
 	let res = ' '; // for test
 

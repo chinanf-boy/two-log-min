@@ -55,7 +55,7 @@
 		"debug": "^3.1.0",
 		"get-module-name": "0.0.1",
 		"ora-min": "^1.0.0",
-		"turbocolor": "^2.4.5"
+		"yobrave-util": "^0.0.3"
 	},
 	"devDependencies": {
 		"ava": "^0.20.0",
