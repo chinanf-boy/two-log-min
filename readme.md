@@ -7,7 +7,7 @@
 ## install
 
 ```
-npm i -g two-log-min
+npm i two-log-min
 ```
 
 ## cli DEMO
@@ -24,6 +24,10 @@ npm i -g two-log-min-cli
 - [two-log-min-cli](https://github.com/chinanf-boy/two-log-min-cli)
 
 ## Usage
+
+<details>
+
+<summary> <b>1. cli code</b> </summary>
 
 ```js
 // cli.js
@@ -78,15 +82,31 @@ setTimeout(() => {
 }, t);
 ```
 
-### l.start === loggerStart
+- `l.start === loggerStart`
 
-### l.text === loggerText
+- `l.text === loggerText`
 
-### l.stop === loggerStop
+- `l.stop === loggerStop`
 
-### l.one === oneOra
+- `l.one === oneOra`
 
 > logger`***` use for other module without `l = twoLog(D)` init
+
+</details>
+
+### 2. doc-templite example
+
+<details>
+
+<summary> code >> </summary>
+
+- cli log with https://github.com/chinanf-boy/doc-templite/blob/master/cli.js#L51
+
+- main log with https://github.com/chinanf-boy/doc-templite/blob/master/doc-templite.js#L55
+
+- more start log 👆, only one stop https://github.com/chinanf-boy/doc-templite/blob/master/cli.js#L112
+
+</details>
 
 ---
 

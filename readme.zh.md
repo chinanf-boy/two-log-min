@@ -21,7 +21,11 @@ npm i -g two-log-min-cli
 
 - [two-log-min-cli](https://github.com/chinanf-boy/two-log-min-cli)
 
-## 命令行用法
+## 使用示例
+
+<details>
+
+<summary> <b>1. 上面 cli 的 代码</b> </summary>
 
 ```js
 // cli.js
@@ -42,7 +46,7 @@ const backLog = l.start(
 );
 
 setTimeout(() => {
-	backLog(`use backLog ${c('withou log 名称space')}`);
+	backLog(`use backLog ${c('withou log namespace')}`);
 }, t - 5000);
 
 const o2 = {
@@ -76,15 +80,31 @@ setTimeout(() => {
 }, t);
 ```
 
-### l.start === loggerStart
+- `l.start === loggerStart`
 
-### l.text === loggerText
+- `l.text === loggerText`
 
-### l.stop === loggerStop
+- `l.stop === loggerStop`
 
-### l.one === oneOra
+- `l.one === oneOra`
 
-> logger`***` 可以给予其他模块使用,而不需要 `l = twoLog(D)` init
+> logger`***` use for other module without `l = twoLog(D)` init
+
+</details>
+
+### 2. doc-templite 示例
+
+<details>
+
+<summary> code >> </summary>
+
+- 命令行 日志 https://github.com/chinanf-boy/doc-templite/blob/master/cli.js#L51
+
+- 主函数 日志 https://github.com/chinanf-boy/doc-templite/blob/master/doc-templite.js#L55
+
+- 可以多个 start 函数启动 👆, 但 只有 一个 stop 函数 https://github.com/chinanf-boy/doc-templite/blob/master/cli.js#L112
+
+</details>
 
 ---
 
