@@ -1,3 +1,5 @@
+const pkgName = require('get-module-name').sync();
+
 module.exports = function merge(step, ...args) {
 	let len = args.length;
 	let options = len > 1 ? args[len - 1] : {};
@@ -15,7 +17,6 @@ module.exports = function merge(step, ...args) {
 		str,
 	};
 };
-const pkgName = require('get-module-name').sync();
 
 const mergeOpts = (opts, step) => {
 	const M = (s, o) => Object.assign(s, o);

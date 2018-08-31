@@ -7,8 +7,8 @@ const debugLog = require('debug');
 const Ora = require('ora-min');
 const { c, m, r } = require('yobrave-util');
 
-const mergeOpts = require('./src/merge-opts');
-const { getRName, onlyWhat, forText, isExistAndErr } = require('./src/util');
+const mergeOpts = require('./merge-opts');
+const { getRName, onlyWhat, forText, isExistAndErr } = require('./util');
 
 // two-log-min
 let D = false; // default no debug
@@ -107,7 +107,7 @@ function oneOra(...args) {
 		}
 
 		l2 = null;
-	} else if (D && LOGGER[log]) {
+	} else if (D && LOGGER[log] && str.length) {
 		LOGGER[log](...str);
 	} else {
 		return false;

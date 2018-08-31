@@ -1,9 +1,4 @@
-module.exports = {
-	onlyWhat,
-	getRName,
-	forText,
-	isExistAndErr,
-};
+const pkgName = require('get-module-name').sync();
 
 const onlyWhat = (only, str) => {
 	return !only || only === str;
@@ -35,4 +30,11 @@ const isExistAndErr = function(val, opts) {
 			)}`
 		);
 	}
+};
+
+module.exports = {
+	onlyWhat,
+	getRName,
+	forText,
+	isExistAndErr,
 };
