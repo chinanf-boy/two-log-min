@@ -16,7 +16,7 @@
 	},
 	"scripts": {
 		"test": "npm run build && nyc ava -v -s",
-		"build": "microbundle && microbundle src/util.js -o dist/util.js && microbundle src/merge-opts.js -o dist/merge-opts.js",
+		"build": "microbundle src/index.js && microbundle src/util.js -o dist/util.js && microbundle src/merge-opts.js -o dist/merge-opts.js",
 		"precommit": "lint-staged",
 		"npmUp": "npm version patch && npm publish",
 		"git": "git push && git push --tags",

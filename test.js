@@ -70,7 +70,7 @@ test('ora start after one: stop', t => {
 	let info = 'info';
 	t.is(l.start('ok ora starting', { ora: color }).test, s + ' start');
 	t.is(l.text('ok ora running'), s + ' text');
-	t.is(l.one(''), true);
+	t.is(l.one(''), false);
 
 	t.is(
 		l.stop('ok ora stopping', { ora: oraState, log: info }),
@@ -102,7 +102,7 @@ test('ora before one: stop', t => {
 	let color = 'red';
 	let oraState = 'fail';
 	let info = 'info';
-	t.is(l.one(''), true);
+	t.is(l.one(''), false);
 
 	t.is(l.start('ok ora starting', { ora: color }).test, s + ' start');
 
@@ -153,7 +153,7 @@ test('debug default  ', t => {
 	let m = s + ' two-log-min';
 	t.is(l.start('log  default   starting').test, m);
 	t.is(l.one('ok one running false'), true);
-	t.is(l.one(''), true);
+	t.is(l.one(''), false);
 
 	t.is(l.text('log  set running'), m);
 
@@ -214,6 +214,7 @@ test('debug use API, set debug formatter %h ', t => {
 	let debug = '';
 	let m = s + ' two-log-min';
 	t.is(l.one('ok one running false'), true);
+	t.is(l.one(''), false);
 	let backLog = l.start('this is hex: %h', new Buffer('hello world'), {
 		log: debug,
 	});
@@ -245,7 +246,6 @@ test.failing('debug error', t => {
 	let m = s + ' two-log-min';
 	t.is(l.start('log  default   starting').test, m);
 	t.is(l.one('ok one running false'), true);
-
 	t.is(l.text('log  set   running'), m);
 
 	t.is(l.stop('log  default   stopping', { ora: oraState, log: debug }), m);

@@ -58,12 +58,13 @@ const _UNLOCK = function() {
 };
 
 const apiLog = function(namespace) {
-	return function strLog(str, ...args) {
+	return function strLog(...args) {
+		let { str, only } = mergeOpts(2, ...args);
 		if (LOGGER) {
-			if (!D) {
-				LOGGER.text = str;
-			} else {
-				LOGGER[namespace](str, ...args);
+			if (!D && onlyWhat(only, 'ora')) {
+				LOGGER.text = str.join(' ');
+			} else if (D && onlyWhat(only, 'log')) {
+				LOGGER[namespace](...str);
 			}
 		}
 		return LOGGER[namespace];
@@ -81,6 +82,10 @@ const apiLog = function(namespace) {
  */
 function oneOra(...args) {
 	let { color, end, log, str } = mergeOpts(0, ...args);
+
+	if (str.join('') === '') {
+		return false;
+	}
 
 	if (LOGGER && !D) {
 		let l = LOGGER;
@@ -107,10 +112,8 @@ function oneOra(...args) {
 		}
 
 		l2 = null;
-	} else if (D && LOGGER[log] && str.length) {
+	} else if (D && LOGGER[log]) {
 		LOGGER[log](...str);
-	} else {
-		return false;
 	}
 	return true;
 }
@@ -240,7 +243,6 @@ process.on('exit', function() {
 });
 
 exports = module.exports = twoLog;
-exports.twoLog = twoLog;
 exports.loggerStart = loggerStart;
 exports.loggerText = loggerText;
 exports.loggerStop = loggerStop;
