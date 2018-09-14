@@ -87,31 +87,32 @@ function oneOra(...args) {
 		return false;
 	}
 
+	function logType(log, str, end) {
+		if (str.filter(x => x).length && end) {
+			log[end](...str);
+		} else {
+			log.stop();
+		}
+	}
+
 	if (LOGGER && !D) {
 		let l = LOGGER;
-		let oldColor = l.color;
-		let oldText = l.text;
+		const oldColor = l.color;
+		const oldText = l.text;
 		l.color = color;
 		l.text = str.join('');
 
-		if (str.filter(x => x).length && end) {
-			l[end](...str);
-		} else {
-			l.stop();
-		}
+		logType(l, str, end);
 
 		LOGGER = Ora(oldText).start();
 		LOGGER.color = oldColor;
 	} else if (!D && !LOGGER) {
-		let l2 = Ora(...str).start();
-		l2.color = color;
-		if (str.filter(x => x).length && end) {
-			l2[end](...str);
-		} else {
-			l2.stop();
-		}
+		let l = Ora(...str).start();
+		l.color = color;
 
-		l2 = null;
+		logType(l, str, end);
+
+		l = null;
 	} else if (D && LOGGER[log]) {
 		LOGGER[log](...str);
 	}
