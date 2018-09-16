@@ -1,4 +1,5 @@
 const pkgName = require('get-module-name').sync();
+const { c, m, r } = require('yobrave-util');
 
 const onlyWhat = (only, str) => {
 	return !only || only === str;
