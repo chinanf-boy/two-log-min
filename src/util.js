@@ -1,4 +1,4 @@
-const pkgName = require('get-module-name').sync();
+const pkgName = require('get-module-name').sync() || '*';
 const { c, m, r } = require('yobrave-util');
 
 const onlyWhat = (only, str) => {
@@ -11,7 +11,7 @@ const getRName = namespace => {
 	if (namespace) {
 		return `${pkgName}:${namespace}`;
 	}
-	return `${pkgName}`;
+	return pkgName;
 };
 const forText = (msgs = []) => {
 	return msgs.join('');

@@ -33,9 +33,9 @@ const twoLog = (debug = false, userUse) => {
 	D = !!debug;
 	LoggerNAME = D ? 'log' : 'ora';
 	if (D) {
-		const pkgName = require('get-module-name').sync();
+		const pkgName = require('get-module-name').sync() || '*';
 		LOGGER = LOGGER || {};
-		LOGGER[pkgName] = debugLog[pkgName];
+		LOGGER[pkgName] = debugLog(pkgName);
 	} else {
 		LOGGER = null;
 	}

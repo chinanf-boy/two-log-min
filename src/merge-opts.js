@@ -1,4 +1,4 @@
-const pkgName = require('get-module-name').sync();
+const pkgName = require('get-module-name').sync() || '*';
 
 module.exports = function merge(step, ...args) {
 	let len = args.length;
