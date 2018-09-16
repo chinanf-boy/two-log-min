@@ -18,12 +18,14 @@ const forText = (msgs = []) => {
 };
 const isExistAndErr = function(val, opts) {
 	let { step, log, ora } = opts;
-	if (val) {
+	let logWay = ora ? val : val[log];
+	if (logWay) {
 		return true;
 	}
 	if (step >= 3) {
-		ora && LOGGER.stop();
+		ora && logWay.stop && logWay.stop();
 		let S = step === 3 ? 'Text' : 'Stop';
+		let LoggerNAME = ora ? 'ora' : 'log';
 		let msg = ora ? `'${ora}' method` : `'${log}' namespace`;
 		throw new Error(
 			`two-log-min-tip-you > use ${c(LoggerNAME)}:in life<${m(S)}> ❌: no ${c(

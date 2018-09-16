@@ -32,6 +32,14 @@ const twoLog = (debug = false, userUse) => {
 
 	D = !!debug;
 	LoggerNAME = D ? 'log' : 'ora';
+	if (D) {
+		const pkgName = require('get-module-name').sync();
+		LOGGER = LOGGER || {};
+		LOGGER[pkgName] = debugLog[pkgName];
+	} else {
+		LOGGER = null;
+	}
+
 	LOCK = true;
 
 	if (userUse) {
@@ -181,7 +189,7 @@ function loggerText(...args) {
 	} else if (D && onlyWhat(only, 'log')) {
 		log = getRName(log);
 
-		if (isExistAndErr(LOGGER[log], { step: 3, log })) {
+		if (isExistAndErr(LOGGER, { step: 3, log })) {
 			LOGGER[log](...str);
 		}
 
@@ -223,7 +231,7 @@ function loggerStop(...args) {
 		log = getRName(log);
 
 		if (str.length) {
-			if (isExistAndErr(LOGGER[log], { step: 4, log })) {
+			if (isExistAndErr(LOGGER, { step: 4, log })) {
 				LOGGER[log](...str);
 			}
 		}

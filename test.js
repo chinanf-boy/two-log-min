@@ -54,7 +54,7 @@ test('ora start after one: succeed', t => {
 	let info = 'info';
 	t.is(l.start('ok ora starting', { ora: color }).test, s + ' start');
 	t.is(l.text('ok ora running'), s + ' text');
-	t.is(l.one('ok ora running'), true);
+	t.is(l.one('ok ora running', { end: '' }), true);
 
 	t.is(
 		l.stop('ok ora stopping', { ora: oraState, log: info }),
@@ -118,6 +118,7 @@ test('ora stop', t => {
 	let l = log();
 	let s = 'ora';
 	let oraState = 'success';
+	let b1 = l.start('ok ora starting');
 	let b = l.start('ok ora starting');
 	b('ok ora change name');
 	t.is(b.test, s + ' start');
