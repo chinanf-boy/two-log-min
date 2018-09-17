@@ -40,4 +40,5 @@ module.exports = {
 	getRName,
 	forText,
 	isExistAndErr,
+	pkgName,
 };
