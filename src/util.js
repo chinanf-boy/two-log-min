@@ -1,5 +1,12 @@
-const pkgName = require('get-module-name').sync() || '*';
-const { c, m, r } = require('yobrave-util');
+const ct = require('colorette');
+const c = ct.cyan;
+const m = ct.magenta;
+
+let pkgName = '';
+
+const setName = str => {
+	pkgName = str;
+};
 
 const onlyWhat = (only, str) => {
 	return !only || only === str;
@@ -41,4 +48,5 @@ module.exports = {
 	forText,
 	isExistAndErr,
 	pkgName,
+	setName,
 };

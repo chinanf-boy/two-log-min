@@ -15,7 +15,7 @@
 		"node": ">=4"
 	},
 	"scripts": {
-		"test": "npm run build && nyc ava -v -s",
+		"test": "npm run build && nyc ava",
 		"build": "microbundle src/index.js && microbundle src/util.js -o dist/util.js && microbundle src/merge-opts.js -o dist/merge-opts.js",
 		"precommit": "lint-staged",
 		"npmUp": "npm version patch && npm publish",
@@ -55,10 +55,10 @@
 		"debug"
 	],
 	"dependencies": {
+		"colorette": "^1.0.1",
 		"debug": "^3.1.0",
-		"get-module-name": "0.0.1",
 		"ora-min": "^1.0.0",
-		"yobrave-util": "^0.0.3"
+		"read-pkg-up": "^4.0.0"
 	},
 	"devDependencies": {
 		"ava": "^0.20.0",

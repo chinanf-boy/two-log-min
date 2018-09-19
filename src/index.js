@@ -3,12 +3,27 @@
 Object.defineProperty(exports, '__esModule', {
 	value: true,
 }); // es6 export default
+const path = require('path');
 const debugLog = require('debug');
 const Ora = require('ora-min');
-const { c, m, r } = require('yobrave-util');
+const readPkgUp = require('read-pkg-up');
 
+const parentDir = path.dirname(module.parent.filename);
+const pkgName =
+	readPkgUp.sync({
+		cwd: parentDir,
+		normalize: false,
+	}).pkg.name || '*';
+
+const {
+	getRName,
+	onlyWhat,
+	forText,
+	isExistAndErr,
+	setName,
+} = require('./util');
+setName(pkgName);
 const mergeOpts = require('./merge-opts');
-const { getRName, onlyWhat, forText, isExistAndErr } = require('./util');
 
 // two-log-min
 let D = false; // default no debug
